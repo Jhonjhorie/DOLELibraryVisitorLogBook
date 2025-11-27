@@ -93,7 +93,6 @@ C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisi
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\DoleVisitorLogbook.csproj.AssemblyReference.cache
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\Styles\theme.baml
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\Views\AddVisitorView.baml
-C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\Views\CombinedVisitorView .baml
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\Views\DashboardView.baml
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\Views\QRCodeGeneratorControl.baml
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\Views\VisitorLogbookView.baml
@@ -106,9 +105,11 @@ C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisi
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\Views\SettingsView.g.cs
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\Views\VisitorLogbookView.g.cs
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\DoleVisitorLogbook_MarkupCompile.cache
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\DoleVisitorLogbook_MarkupCompile.lref
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\Views\CombinedVisitorView .baml
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\Views\ReportsView.baml
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\Views\SettingsView.baml
 C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Debug\net8.0-windows\DoleVisitorLogbook.g.resources

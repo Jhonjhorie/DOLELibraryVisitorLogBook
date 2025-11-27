@@ -5,6 +5,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|c:\\users\\dole\\source\\repos\\dolevisitorlogbook\\dolelibraryvisitorlogbook\\dolevisitorlogbook\\views\\combinedvisitorview .xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|solutionrelative:dolevisitorlogbook\\views\\combinedvisitorview .xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|c:\\users\\dole\\source\\repos\\dolevisitorlogbook\\dolelibraryvisitorlogbook\\dolevisitorlogbook\\views\\combinedvisitorview .xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|solutionrelative:dolevisitorlogbook\\views\\combinedvisitorview .xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,6 +30,19 @@
               "RelativeToolTip": "DoleVisitorLogbook\\Views\\CombinedVisitorView .xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-11-27T01:30:50.904Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CombinedVisitorView .xaml.cs",
+              "DocumentMoniker": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\DoleVisitorLogbook\\Views\\CombinedVisitorView .xaml.cs",
+              "RelativeDocumentMoniker": "DoleVisitorLogbook\\Views\\CombinedVisitorView .xaml.cs",
+              "ToolTip": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\DoleVisitorLogbook\\Views\\CombinedVisitorView .xaml.cs",
+              "RelativeToolTip": "DoleVisitorLogbook\\Views\\CombinedVisitorView .xaml.cs",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAuwJEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T02:02:23.239Z",
               "EditorCaption": ""
             }
           ]

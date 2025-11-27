@@ -6,10 +6,46 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using System.Windows.Data;
+using System.Globalization;
 using ClosedXML.Excel;
 
 namespace DoleVisitorLogbook.Views
 {
+    // Converter to check if a value is null (returns true if null, false otherwise)
+    public class NullToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            // Return true if value is null or DBNull (enables control when no checkout exists)
+            return value == null || value == DBNull.Value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // Converter to show/hide placeholder based on text length
+    public class LengthToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            // Show placeholder if text length is 0
+            if (value is int length)
+            {
+                return length == 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public partial class VisitorLogbookWindow : Window
     {
         private static VisitorLogbookWindow? _instance;
@@ -68,6 +104,32 @@ namespace DoleVisitorLogbook.Views
                 MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
+
+                // Add formatted columns for display
+                dt.Columns.Add("time_in_formatted", typeof(string));
+                dt.Columns.Add("time_out_formatted", typeof(string));
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    // Format Time In
+                    if (row["time_in"] != DBNull.Value)
+                    {
+                        DateTime timeIn = Convert.ToDateTime(row["time_in"]);
+                        row["time_in_formatted"] = timeIn.ToString("MM/dd/yyyy hh:mm tt");
+                    }
+
+                    // Format Time Out
+                    if (row["time_out"] != DBNull.Value)
+                    {
+                        DateTime timeOut = Convert.ToDateTime(row["time_out"]);
+                        row["time_out_formatted"] = timeOut.ToString("MM/dd/yyyy hh:mm tt");
+                    }
+                    else
+                    {
+                        row["time_out_formatted"] = "";
+                    }
+                }
+
                 dgVisitors.ItemsSource = dt.DefaultView;
                 txtRecordCount.Text = $"{dt.Rows.Count} records";
             }
@@ -81,13 +143,22 @@ namespace DoleVisitorLogbook.Views
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
         }
-
         private void CheckOut_Click(object sender, RoutedEventArgs e)
         {
             Button btn = (Button)sender;
             var row = (DataRowView)btn.DataContext;
             string visitorName = row["name"].ToString();
             DateTime timeIn = Convert.ToDateTime(row["time_in"]);
+
+            // Check if already checked out
+            if (row["time_out"] != DBNull.Value)
+            {
+                MessageBox.Show("This visitor is already checked out.",
+                    "Already Checked Out",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                return;
+            }
 
             var container = dgVisitors.ItemContainerGenerator.ContainerFromItem(row) as DataGridRow;
             TextBox manualTxt = FindChild<TextBox>(container, "txtManualCheckout");
@@ -97,13 +168,50 @@ namespace DoleVisitorLogbook.Views
 
             if (!string.IsNullOrEmpty(manualTimeValue))
             {
-                if (DateTime.TryParse(manualTimeValue, out DateTime parsedTime))
+                // Try to parse time-only input (HH:MM or HH:MM:SS)
+                if (TimeSpan.TryParse(manualTimeValue, out TimeSpan timeSpan))
                 {
-                    manualCheckoutTime = parsedTime;
+                    // Combine today's date with the entered time
+                    manualCheckoutTime = DateTime.Today.Add(timeSpan);
+
+                    // If the time is earlier than check-in time on the same day,
+                    // assume it's for the next day
+                    if (manualCheckoutTime.Value < timeIn && timeIn.Date == DateTime.Today)
+                    {
+                        manualCheckoutTime = manualCheckoutTime.Value.AddDays(1);
+                    }
+
+                    // Validation: Check if checkout time is in the future
+                    if (manualCheckoutTime.Value > DateTime.Now)
+                    {
+                        MessageBox.Show("Time Out cannot be in the future.\n\n" +
+                                      $"Current Time: {DateTime.Now.ToString("hh:mm:ss tt")}\n" +
+                                      $"Entered Time: {manualCheckoutTime.Value.ToString("hh:mm:ss tt")}",
+                            "Invalid Time Out",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    // Validation: Check if checkout time is before check-in time
+                    if (manualCheckoutTime.Value < timeIn)
+                    {
+                        MessageBox.Show("Time Out cannot be earlier than Time In.\n\n" +
+                                      $"Time In: {timeIn.ToString("MM/dd/yyyy hh:mm:ss tt")}\n" +
+                                      $"Time Out: {manualCheckoutTime.Value.ToString("MM/dd/yyyy hh:mm:ss tt")}",
+                            "Invalid Time Out",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Invalid date format.\nUse: YYYY-MM-DD HH:MM:SS",
+                    MessageBox.Show("Invalid time format.\n\n" +
+                                  "Accepted formats:\n" +
+                                  "• HH:MM (e.g., 14:30 or 02:30)\n" +
+                                  "• HH:MM:SS (e.g., 14:30:00 or 02:30:00)\n" +
+                                  "• Use 24-hour format (00:00 - 23:59)",
                         "Invalid Input",
                         MessageBoxButton.OK,
                         MessageBoxImage.Warning);
@@ -125,15 +233,15 @@ namespace DoleVisitorLogbook.Views
                     cmd.Parameters.AddWithValue("@Name", visitorName);
                     cmd.Parameters.AddWithValue("@TimeIn", timeIn);
 
-                    cmd.Parameters.AddWithValue("@TimeOut",
-                        manualCheckoutTime?.ToString("yyyy-MM-dd HH:mm:ss") ??
-                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    DateTime checkoutTime = manualCheckoutTime ?? DateTime.Now;
+                    cmd.Parameters.AddWithValue("@TimeOut", checkoutTime.ToString("yyyy-MM-dd HH:mm:ss"));
 
                     int updated = cmd.ExecuteNonQuery();
 
                     if (updated > 0)
                     {
-                        MessageBox.Show($"Visitor '{visitorName}' successfully checked out.",
+                        MessageBox.Show($"Visitor '{visitorName}' successfully checked out.\n\n" +
+                                      $"Time Out: {checkoutTime.ToString("MM/dd/yyyy hh:mm:ss tt")}",
                             "Checkout Successful",
                             MessageBoxButton.OK,
                             MessageBoxImage.Information);
@@ -150,6 +258,7 @@ namespace DoleVisitorLogbook.Views
 
             LoadVisitors();
         }
+
 
         #endregion
 
