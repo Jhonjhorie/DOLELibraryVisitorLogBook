@@ -1,0 +1,230 @@
+﻿<UserControl x:Class="DoleVisitorLogbook.Views.AddVisitorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="600"
+             d:DesignWidth="980">
+    <Grid Background="#F1F3F4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="30,30,30,20">
+            <TextBlock Text="Add New Visitor" 
+                       FontSize="28" 
+                       FontWeight="Bold" 
+                       Foreground="#003A6F"/>
+            <TextBlock Text="Please fill in the visitor information below" 
+                       FontSize="14" 
+                       Foreground="#666666" 
+                       Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <!-- Form Container -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="30,0,30,30">
+            <Border Background="White" 
+                    CornerRadius="8" 
+                    Padding="40"
+                    MaxWidth="600">
+                <Border.Effect>
+                    <DropShadowEffect Color="#CCCCCC" BlurRadius="10" 
+                                      ShadowDepth="2" Opacity="0.3"/>
+                </Border.Effect>
+                <StackPanel>
+                    <!-- Name -->
+                    <TextBlock Text="Name *" 
+                               FontWeight="SemiBold" 
+                               FontSize="14"
+                               Foreground="#333333"
+                               Margin="0,0,0,8"/>
+                    <TextBox x:Name="txtName" 
+                             Height="40" 
+                             FontSize="14"
+                             Padding="12,10"
+                             BorderBrush="#CCCCCC"
+                             BorderThickness="1"
+                             Margin="0,0,0,5"/>
+                    <TextBlock x:Name="txtNameError" 
+                               Text="Name is required" 
+                               Foreground="#D32F2F" 
+                               FontSize="12" 
+                               Margin="0,0,0,15"
+                               Visibility="Collapsed"/>
+
+                    <!-- Gender -->
+                    <TextBlock Text="Gender *" 
+                               FontWeight="SemiBold" 
+                               FontSize="14"
+                               Foreground="#333333"
+                               Margin="0,0,0,8"/>
+                    <ComboBox x:Name="cbGender" 
+                              Height="40" 
+                              FontSize="14"
+                              Padding="12,10"
+                              BorderBrush="#CCCCCC"
+                              BorderThickness="1"
+                              Margin="0,0,0,5">
+                        <ComboBoxItem Content="Male"/>
+                        <ComboBoxItem Content="Female"/>
+                        <ComboBoxItem Content="Other"/>
+                    </ComboBox>
+                    <TextBlock x:Name="txtGenderError" 
+                               Text="Gender is required" 
+                               Foreground="#D32F2F" 
+                               FontSize="12" 
+                               Margin="0,0,0,15"
+                               Visibility="Collapsed"/>
+
+                    <!-- Client Type -->
+                    <TextBlock Text="Client Type *" 
+                               FontWeight="SemiBold" 
+                               FontSize="14"
+                               Foreground="#333333"
+                               Margin="0,0,0,8"/>
+                    <ComboBox x:Name="cbClientType" 
+                              Height="40" 
+                              FontSize="14"
+                              Padding="12,10"
+                              BorderBrush="#CCCCCC"
+                              BorderThickness="1"
+                              Margin="0,0,0,5">
+                        <ComboBoxItem Content="Student"/>
+                        <ComboBoxItem Content="Faculty"/>
+                        <ComboBoxItem Content="Guest"/>
+                    </ComboBox>
+                    <TextBlock x:Name="txtClientTypeError" 
+                               Text="Client type is required" 
+                               Foreground="#D32F2F" 
+                               FontSize="12" 
+                               Margin="0,0,0,15"
+                               Visibility="Collapsed"/>
+
+                    <!-- Office/Institution -->
+                    <TextBlock Text="Office / Institution *" 
+                               FontWeight="SemiBold" 
+                               FontSize="14"
+                               Foreground="#333333"
+                               Margin="0,0,0,8"/>
+                    <TextBox x:Name="txtOffice" 
+                             Height="40" 
+                             FontSize="14"
+                             Padding="12,10"
+                             BorderBrush="#CCCCCC"
+                             BorderThickness="1"
+                             Margin="0,0,0,5"/>
+                    <TextBlock x:Name="txtOfficeError" 
+                               Text="Office/Institution is required" 
+                               Foreground="#D32F2F" 
+                               FontSize="12" 
+                               Margin="0,0,0,15"
+                               Visibility="Collapsed"/>
+
+                    <!-- Purpose of Visit -->
+                    <TextBlock Text="Purpose of Visit *" 
+                               FontWeight="SemiBold" 
+                               FontSize="14"
+                               Foreground="#333333"
+                               Margin="0,0,0,8"/>
+                    <TextBox x:Name="txtPurpose" 
+                             Height="100" 
+                             FontSize="14"
+                             Padding="12,10"
+                             BorderBrush="#CCCCCC"
+                             BorderThickness="1"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"
+                             Margin="0,0,0,5"/>
+                    <TextBlock x:Name="txtPurposeError" 
+                               Text="Purpose is required" 
+                               Foreground="#D32F2F" 
+                               FontSize="12" 
+                               Margin="0,0,0,25"
+                               Visibility="Collapsed"/>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Right"
+                                Margin="0,10,0,0">
+                        <Button Content="Clear Form"
+                                Width="130"
+                                Height="45"
+                                Margin="0,0,15,0"
+                                Background="White"
+                                Foreground="#666666"
+                                FontSize="14"
+                                FontWeight="SemiBold"
+                                BorderBrush="#CCCCCC"
+                                BorderThickness="1"
+                                Cursor="Hand"
+                                Click="BtnClear_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="6">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#F5F5F5"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Button x:Name="btnSave"
+                                Content="Check In Visitor"
+                                Width="180"
+                                Height="45"
+                                Background="#003A6F"
+                                Foreground="White"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="BtnSave_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        CornerRadius="6">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#004080"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Background" Value="#CCCCCC"/>
+                                            <Setter Property="Cursor" Value="No"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
