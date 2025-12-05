@@ -180,7 +180,7 @@
                                   BorderThickness="2"
                                   Margin="0,0,0,2">
                             <ComboBoxItem Content="Student"/>
-                            <ComboBoxItem Content="Faculty"/>
+                            <ComboBoxItem Content="Employee"/>
                             <ComboBoxItem Content="Guest"/>
                         </ComboBox>
                         <TextBlock x:Name="txtClientTypeError" 
@@ -192,7 +192,7 @@
 
                     <!-- Office/Institution -->
                     <StackPanel Grid.Column="3" Margin="0,0,10,0">
-                        <TextBlock Text="🏢 Office *" 
+                        <TextBlock Text="🏢 Office / Institution*" 
                                    FontWeight="SemiBold" 
                                    FontSize="11"
                                    Foreground="#5C6BC0"
@@ -339,85 +339,89 @@
                 Background="White" 
                 CornerRadius="12" 
                 Margin="20,0,20,20"
-                Padding="30"
+                Padding="20"
                 BorderBrush="#7E57C2"
                 BorderThickness="0,4,0,0">
             <Border.Effect>
                 <DropShadowEffect Color="#512DA8" BlurRadius="20" 
                                   ShadowDepth="4" Opacity="0.25"/>
             </Border.Effect>
-            <Grid>
+            <Grid RenderTransformOrigin="0.502,0.471">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Logbook Header with Gradient Background -->
-                <Border Grid.Row="0" 
-                        Background="#673AB7"
-                        CornerRadius="8"
-                        Padding="20,15"
-                        Margin="0,0,0,20">
+                <!-- Smaller Logbook Header -->
+                <Border Grid.Row="0"
+        Background="#673AB7"
+        CornerRadius="6"
+        Padding="12,8"
+        Margin="0,0,0,12">
                     <Border.Effect>
-                        <DropShadowEffect Color="#512DA8" BlurRadius="8" 
-                                          ShadowDepth="2" Opacity="0.3"/>
+                        <DropShadowEffect Color="#512DA8" BlurRadius="6"
+                          ShadowDepth="1" Opacity="0.25"/>
                     </Border.Effect>
+
                     <Grid>
                         <StackPanel Orientation="Horizontal">
                             <Border Background="White"
-                                    CornerRadius="8"
-                                    Width="40"
-                                    Height="40"
-                                    Margin="0,0,12,0">
-                                <TextBlock Text="📋" 
-                                           FontSize="22" 
-                                           HorizontalAlignment="Center" 
-                                           VerticalAlignment="Center"/>
+                    CornerRadius="6"
+                    Width="32"
+                    Height="32"
+                    Margin="0,0,10,0">
+                                <TextBlock Text="📋"
+                           FontSize="18"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
                             </Border>
+
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Visitor Logbook" 
-                                           FontSize="26" 
-                                           FontWeight="Bold" 
-                                           Foreground="White"/>
-                                <TextBlock Text="Track all library visitors in real-time"
-                                           FontSize="12"
-                                           Foreground="#D1C4E9"
-                                           Margin="0,2,0,0"/>
+                                <TextBlock Text="Visitor Logbook"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="White"/>
+                                <TextBlock Text="Real-time visitor tracking"
+                           FontSize="10"
+                           Foreground="#D1C4E9"
+                           Margin="0,1,0,0"/>
                             </StackPanel>
+
                             <Border Background="#9575CD"
-                                    CornerRadius="16"
-                                    Padding="12,6"
-                                    Margin="20,0,0,0"
-                                    VerticalAlignment="Center">
+                    CornerRadius="12"
+                    Padding="8,3"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center">
                                 <TextBlock x:Name="txtRecordCount"
-                                           Text="0 records"
-                                           FontSize="14"
-                                           FontWeight="Bold"
-                                           Foreground="White"/>
+                           Text="0 records"
+                           FontSize="12"
+                           FontWeight="Bold"
+                           Foreground="White"/>
                             </Border>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" 
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center">
-                            <Button Content="🔄 Refresh Data"
-                                    Width="130"
-                                    Height="38"
-                                    Background="#9575CD"
-                                    Foreground="White"
-                                    FontSize="13"
-                                    FontWeight="SemiBold"
-                                    BorderThickness="0"
-                                    Cursor="Hand"
-                                    Click="BtnRefresh_Click">
+
+                        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+                            <Button Content="🔄 Refresh"
+                    Width="100"
+                    Height="30"
+                    Background="#9575CD"
+                    Foreground="White"
+                    FontSize="12"
+                    FontWeight="SemiBold"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Click="BtnRefresh_Click">
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border Background="{TemplateBinding Background}"
-                                                            CornerRadius="6">
-                                                        <ContentPresenter HorizontalAlignment="Center" 
-                                                                          VerticalAlignment="Center"/>
+                                            CornerRadius="5">
+                                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
                                                     </Border>
                                                 </ControlTemplate>
                                             </Setter.Value>
@@ -434,8 +438,10 @@
                     </Grid>
                 </Border>
 
+
                 <!-- Enhanced DataGrid with Color Accents -->
-                <Border BorderThickness="2"
+                <Border Grid.Row="1"
+                        BorderThickness="2"
                         BorderBrush="#B39DDB"
                         CornerRadius="8">
                     <DataGrid Grid.Row="1"
@@ -451,6 +457,7 @@
                               SelectionMode="Single"
                               AlternatingRowBackground="#F3E5F5"
                               FontSize="13">
+
 
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader">
@@ -473,9 +480,8 @@
                                 </Style.Triggers>
                             </Style>
                         </DataGrid.RowStyle>
-
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding id}" Width="70">
+                            <DataGridTextColumn Header="ID" Binding="{Binding id}" Width="50">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="FontWeight" Value="Bold"/>
@@ -483,7 +489,18 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*" MinWidth="180">
+
+                            <!-- NEW DATE COLUMN -->
+                            <DataGridTextColumn Header="Date" Binding="{Binding date_formatted}" Width="90">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="Foreground" Value="#5C6BC0"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*" MinWidth="100">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="FontWeight" Value="SemiBold"/>
@@ -491,16 +508,18 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
                             <DataGridTextColumn Header="Gender" Binding="{Binding gender}" Width="90"/>
-                            <DataGridTextColumn Header="Client Type" Binding="{Binding client_type}" Width="120">
+                            <DataGridTextColumn Header="Client Type" Binding="{Binding client_type}" Width="100">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="#5C6BC0"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Office/Institution" Binding="{Binding office}" Width="*" />
-                            <DataGridTextColumn Header="Purpose" Binding="{Binding purpose}" Width="*" />
-                            <DataGridTextColumn Header="Time In" Binding="{Binding time_in_formatted}" Width="150">
+                            <DataGridTextColumn Header="Office/Institution" Binding="{Binding office}" Width="140" />
+                            <DataGridTextColumn Header="Purpose" Binding="{Binding purpose}" Width="160" />
+
+                            <!-- UPDATED TIME IN - TIME ONLY -->
+                            <DataGridTextColumn Header="Time In" Binding="{Binding time_in_formatted}" Width="90">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="#43A047"/>
@@ -508,7 +527,9 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Time Out" Binding="{Binding time_out_formatted}" Width="150">
+
+                            <!-- UPDATED TIME OUT - TIME ONLY -->
+                            <DataGridTextColumn Header="Time Out" Binding="{Binding time_out_formatted}" Width="90">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="#E53935"/>
@@ -517,22 +538,22 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
-                            <DataGridTemplateColumn Header="Actions" Width="270">
+                            <DataGridTemplateColumn Header="Actions" Width="210">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <!-- Manual Checkout Time Input -->
                                             <TextBox Width="100"
-                                                 x:Name="txtManualCheckout"
-                                                 Tag="{Binding id}"
-                                                 Height="34"
-                                                 FontSize="12"
-                                                 Padding="8"
-                                                 BorderBrush="#B39DDB"
-                                                 BorderThickness="2"
-                                                 ToolTip="Enter time (HH:MM or HH:MM:SS)"
-                                                 Margin="0,0,8,0"
-                                                 IsEnabled="{Binding time_out, Converter={StaticResource NullToBooleanConverter}}">
+                         x:Name="txtManualCheckout"
+                         Tag="{Binding id}"
+                         Height="34"
+                         FontSize="12"
+                         Padding="8"
+                         BorderBrush="#B39DDB"
+                         BorderThickness="2"
+                         ToolTip="Enter time (12:30 PM or 14:30)"
+                         Margin="0,0,8,0"
+                         IsEnabled="{Binding time_out, Converter={StaticResource NullToBooleanConverter}}">
                                                 <TextBox.Style>
                                                     <Style TargetType="TextBox">
                                                         <Style.Triggers>
@@ -549,24 +570,24 @@
 
                                             <!-- Checkout Button -->
                                             <Button Content="✓ Check Out"
-                                                Background="#43A047"
-                                                Foreground="White"
-                                                Padding="14,8"
-                                                FontSize="12"
-                                                FontWeight="Bold"
-                                                BorderThickness="0"
-                                                Cursor="Hand"
-                                                IsEnabled="{Binding time_out, Converter={StaticResource NullToBooleanConverter}}"
-                                                Click="CheckOut_Click">
+                        Background="#43A047"
+                        Foreground="White"
+                        Padding="14,8"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        IsEnabled="{Binding time_out, Converter={StaticResource NullToBooleanConverter}}"
+                        Click="CheckOut_Click">
                                                 <Button.Style>
                                                     <Style TargetType="Button">
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="Button">
                                                                     <Border Background="{TemplateBinding Background}"
-                                                                        CornerRadius="5">
+                                                CornerRadius="5">
                                                                         <ContentPresenter HorizontalAlignment="Center"
-                                                                                      VerticalAlignment="Center"/>
+                                                              VerticalAlignment="Center"/>
                                                                     </Border>
                                                                 </ControlTemplate>
                                                             </Setter.Value>

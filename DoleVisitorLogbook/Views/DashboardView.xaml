@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DesignHeight="450"
-             d:DesignWidth="800">
+             d:DesignWidth="800"
+             Unloaded="UserControl_Unloaded">
     <Grid Background="#F1F3F4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -15,11 +16,79 @@
 
         <!-- Header -->
         <StackPanel Grid.Row="0" Margin="20,20,20,10">
-            <TextBlock Text="Dashboard Overview" 
-                       FontSize="28" 
-                       FontWeight="Bold" 
-                       Foreground="#003A6F"/>
-            <TextBlock Text="Monitor library visitor activity and statistics" 
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Dashboard Overview" 
+                           FontSize="28" 
+                           FontWeight="Bold" 
+                           Foreground="#003A6F"/>
+                <Button Content="🔄 Refresh"
+                        Width="100"
+                        Height="32"
+                        Background="#5C6BC0"
+                        Foreground="White"
+                        FontSize="11"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Margin="20,0,0,0"
+                        Click="BtnRefreshDashboard_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="6">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#3F51B5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- TEMPORARY DEBUG BUTTON - Remove after fixing -->
+                <Button Content="🐛 Debug Active"
+                        Width="110"
+                        Height="32"
+                        Background="#FF9800"
+                        Foreground="White"
+                        FontSize="11"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Margin="10,0,0,0"
+                        Click="BtnDebugActive_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="6">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#F57C00"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+            <TextBlock Text="Monitor library visitor activity and statistics • Auto-refreshes every minute" 
                        FontSize="14" 
                        Foreground="#666666" 
                        Margin="0,5,0,0"/>
@@ -49,13 +118,13 @@
                                Foreground="#666666" 
                                Margin="0,10,0,5"/>
                     <TextBlock x:Name="txtTodayVisitors" 
-                               Text="124" 
+                               Text="0" 
                                FontSize="36" 
                                FontWeight="Bold" 
                                Foreground="#003A6F"/>
-                    <TextBlock Text="+12% from yesterday" 
+                    <TextBlock Text="Loading..." 
                                FontSize="12" 
-                               Foreground="#4CAF50" 
+                               Foreground="#666666" 
                                Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
@@ -75,13 +144,13 @@
                                Foreground="#666666" 
                                Margin="0,10,0,5"/>
                     <TextBlock x:Name="txtWeekVisitors" 
-                               Text="847" 
+                               Text="0" 
                                FontSize="36" 
                                FontWeight="Bold" 
                                Foreground="#003A6F"/>
-                    <TextBlock Text="+8% from last week" 
+                    <TextBlock Text="Loading..." 
                                FontSize="12" 
-                               Foreground="#4CAF50" 
+                               Foreground="#666666" 
                                Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
@@ -101,13 +170,13 @@
                                Foreground="#666666" 
                                Margin="0,10,0,5"/>
                     <TextBlock x:Name="txtMonthVisitors" 
-                               Text="3,421" 
+                               Text="0" 
                                FontSize="36" 
                                FontWeight="Bold" 
                                Foreground="#003A6F"/>
-                    <TextBlock Text="+15% from last month" 
+                    <TextBlock Text="Loading..." 
                                FontSize="12" 
-                               Foreground="#4CAF50" 
+                               Foreground="#666666" 
                                Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
@@ -127,7 +196,7 @@
                                Foreground="#666666" 
                                Margin="0,10,0,5"/>
                     <TextBlock x:Name="txtActiveVisitors" 
-                               Text="32" 
+                               Text="0" 
                                FontSize="36" 
                                FontWeight="Bold" 
                                Foreground="#FF9800"/>
@@ -154,69 +223,220 @@
                     <DropShadowEffect Color="#CCCCCC" BlurRadius="10" 
                                       ShadowDepth="2" Opacity="0.3"/>
                 </Border.Effect>
-                <StackPanel>
-                    <TextBlock Text="Visitor Trends (Last 7 Days)" 
-                               FontSize="18" 
-                               FontWeight="SemiBold" 
-                               Foreground="#003A6F" 
-                               Margin="0,0,0,20"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                    <!-- Simple Bar Chart Visualization -->
-                    <Grid Height="250">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Bars -->
-                        <StackPanel Grid.Column="0" VerticalAlignment="Bottom" Margin="5">
-                            <Rectangle Fill="#003A6F" Height="120" RadiusX="4" RadiusY="4"/>
-                            <TextBlock Text="Mon" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                            <TextBlock Text="95" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#003A6F"/>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Margin="5">
-                            <Rectangle Fill="#003A6F" Height="140" RadiusX="4" RadiusY="4"/>
-                            <TextBlock Text="Tue" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                            <TextBlock Text="112" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#003A6F"/>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="2" VerticalAlignment="Bottom" Margin="5">
-                            <Rectangle Fill="#003A6F" Height="160" RadiusX="4" RadiusY="4"/>
-                            <TextBlock Text="Wed" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                            <TextBlock Text="128" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#003A6F"/>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="3" VerticalAlignment="Bottom" Margin="5">
-                            <Rectangle Fill="#003A6F" Height="135" RadiusX="4" RadiusY="4"/>
-                            <TextBlock Text="Thu" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                            <TextBlock Text="108" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#003A6F"/>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="4" VerticalAlignment="Bottom" Margin="5">
-                            <Rectangle Fill="#003A6F" Height="175" RadiusX="4" RadiusY="4"/>
-                            <TextBlock Text="Fri" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                            <TextBlock Text="140" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#003A6F"/>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="5" VerticalAlignment="Bottom" Margin="5">
-                            <Rectangle Fill="#4CAF50" Height="90" RadiusX="4" RadiusY="4"/>
-                            <TextBlock Text="Sat" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                            <TextBlock Text="72" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#4CAF50"/>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="6" VerticalAlignment="Bottom" Margin="5">
-                            <Rectangle Fill="#4CAF50" Height="155" RadiusX="4" RadiusY="4"/>
-                            <TextBlock Text="Sun" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                            <TextBlock Text="124" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#4CAF50"/>
+                    <!-- Chart Header -->
+                    <Grid Grid.Row="0" Margin="0,0,0,20">
+                        <StackPanel>
+                            <TextBlock Text="Visitor Trends (Last 7 Days)" 
+                                       FontSize="18" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="#003A6F"/>
+                            <TextBlock Text="Daily visitor check-ins" 
+                                       FontSize="12" 
+                                       Foreground="#999999" 
+                                       Margin="0,3,0,0"/>
                         </StackPanel>
                     </Grid>
-                </StackPanel>
+
+                    <!-- Chart Area with Grid Lines -->
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Background Grid Lines -->
+                        <Grid Grid.Row="0" Margin="0,0,0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Rectangle Grid.Row="0" Height="1" VerticalAlignment="Bottom" 
+                                       Fill="#E0E0E0" Opacity="0.5"/>
+                            <Rectangle Grid.Row="1" Height="1" VerticalAlignment="Bottom" 
+                                       Fill="#E0E0E0" Opacity="0.5"/>
+                            <Rectangle Grid.Row="2" Height="1" VerticalAlignment="Bottom" 
+                                       Fill="#E0E0E0" Opacity="0.5"/>
+                            <Rectangle Grid.Row="3" Height="1" VerticalAlignment="Bottom" 
+                                       Fill="#E0E0E0" Opacity="0.5"/>
+                        </Grid>
+
+                        <!-- Bar Chart -->
+                        <Grid Grid.Row="0" Margin="0,0,0,10" Height="200">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Day 1 -->
+                            <Border Grid.Column="0" Margin="8,0" VerticalAlignment="Bottom">
+                                <Grid>
+                                    <Rectangle x:Name="bar1" Fill="#5C6BC0" Height="20" 
+                                               RadiusX="6" RadiusY="6">
+                                        <Rectangle.Effect>
+                                            <DropShadowEffect Color="#5C6BC0" BlurRadius="8" 
+                                                              ShadowDepth="0" Opacity="0.4"/>
+                                        </Rectangle.Effect>
+                                    </Rectangle>
+                                    <TextBlock x:Name="count1" Text="0" 
+                                               Foreground="White" FontWeight="Bold" 
+                                               FontSize="11" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Day 2 -->
+                            <Border Grid.Column="1" Margin="8,0" VerticalAlignment="Bottom">
+                                <Grid>
+                                    <Rectangle x:Name="bar2" Fill="#5C6BC0" Height="20" 
+                                               RadiusX="6" RadiusY="6">
+                                        <Rectangle.Effect>
+                                            <DropShadowEffect Color="#5C6BC0" BlurRadius="8" 
+                                                              ShadowDepth="0" Opacity="0.4"/>
+                                        </Rectangle.Effect>
+                                    </Rectangle>
+                                    <TextBlock x:Name="count2" Text="0" 
+                                               Foreground="White" FontWeight="Bold" 
+                                               FontSize="11" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Day 3 -->
+                            <Border Grid.Column="2" Margin="8,0" VerticalAlignment="Bottom">
+                                <Grid>
+                                    <Rectangle x:Name="bar3" Fill="#5C6BC0" Height="20" 
+                                               RadiusX="6" RadiusY="6">
+                                        <Rectangle.Effect>
+                                            <DropShadowEffect Color="#5C6BC0" BlurRadius="8" 
+                                                              ShadowDepth="0" Opacity="0.4"/>
+                                        </Rectangle.Effect>
+                                    </Rectangle>
+                                    <TextBlock x:Name="count3" Text="0" 
+                                               Foreground="White" FontWeight="Bold" 
+                                               FontSize="11" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Day 4 -->
+                            <Border Grid.Column="3" Margin="8,0" VerticalAlignment="Bottom">
+                                <Grid>
+                                    <Rectangle x:Name="bar4" Fill="#5C6BC0" Height="20" 
+                                               RadiusX="6" RadiusY="6">
+                                        <Rectangle.Effect>
+                                            <DropShadowEffect Color="#5C6BC0" BlurRadius="8" 
+                                                              ShadowDepth="0" Opacity="0.4"/>
+                                        </Rectangle.Effect>
+                                    </Rectangle>
+                                    <TextBlock x:Name="count4" Text="0" 
+                                               Foreground="White" FontWeight="Bold" 
+                                               FontSize="11" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Day 5 -->
+                            <Border Grid.Column="4" Margin="8,0" VerticalAlignment="Bottom">
+                                <Grid>
+                                    <Rectangle x:Name="bar5" Fill="#5C6BC0" Height="20" 
+                                               RadiusX="6" RadiusY="6">
+                                        <Rectangle.Effect>
+                                            <DropShadowEffect Color="#5C6BC0" BlurRadius="8" 
+                                                              ShadowDepth="0" Opacity="0.4"/>
+                                        </Rectangle.Effect>
+                                    </Rectangle>
+                                    <TextBlock x:Name="count5" Text="0" 
+                                               Foreground="White" FontWeight="Bold" 
+                                               FontSize="11" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Day 6 (Weekend) -->
+                            <Border Grid.Column="5" Margin="8,0" VerticalAlignment="Bottom">
+                                <Grid>
+                                    <Rectangle x:Name="bar6" Fill="#66BB6A" Height="20" 
+                                               RadiusX="6" RadiusY="6">
+                                        <Rectangle.Effect>
+                                            <DropShadowEffect Color="#66BB6A" BlurRadius="8" 
+                                                              ShadowDepth="0" Opacity="0.4"/>
+                                        </Rectangle.Effect>
+                                    </Rectangle>
+                                    <TextBlock x:Name="count6" Text="0" 
+                                               Foreground="White" FontWeight="Bold" 
+                                               FontSize="11" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Day 7 (Weekend) -->
+                            <Border Grid.Column="6" Margin="8,0" VerticalAlignment="Bottom">
+                                <Grid>
+                                    <Rectangle x:Name="bar7" Fill="#66BB6A" Height="20" 
+                                               RadiusX="6" RadiusY="6">
+                                        <Rectangle.Effect>
+                                            <DropShadowEffect Color="#66BB6A" BlurRadius="8" 
+                                                              ShadowDepth="0" Opacity="0.4"/>
+                                        </Rectangle.Effect>
+                                    </Rectangle>
+                                    <TextBlock x:Name="count7" Text="0" 
+                                               Foreground="White" FontWeight="Bold" 
+                                               FontSize="11" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <!-- Day Labels -->
+                        <Grid Grid.Row="1" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Name="day1" Grid.Column="0" Text="Mon" 
+                                       HorizontalAlignment="Center" FontSize="12" 
+                                       Foreground="#666666" FontWeight="Medium"/>
+                            <TextBlock x:Name="day2" Grid.Column="1" Text="Tue" 
+                                       HorizontalAlignment="Center" FontSize="12" 
+                                       Foreground="#666666" FontWeight="Medium"/>
+                            <TextBlock x:Name="day3" Grid.Column="2" Text="Wed" 
+                                       HorizontalAlignment="Center" FontSize="12" 
+                                       Foreground="#666666" FontWeight="Medium"/>
+                            <TextBlock x:Name="day4" Grid.Column="3" Text="Thu" 
+                                       HorizontalAlignment="Center" FontSize="12" 
+                                       Foreground="#666666" FontWeight="Medium"/>
+                            <TextBlock x:Name="day5" Grid.Column="4" Text="Fri" 
+                                       HorizontalAlignment="Center" FontSize="12" 
+                                       Foreground="#666666" FontWeight="Medium"/>
+                            <TextBlock x:Name="day6" Grid.Column="5" Text="Sat" 
+                                       HorizontalAlignment="Center" FontSize="12" 
+                                       Foreground="#66BB6A" FontWeight="Bold"/>
+                            <TextBlock x:Name="day7" Grid.Column="6" Text="Sun" 
+                                       HorizontalAlignment="Center" FontSize="12" 
+                                       Foreground="#66BB6A" FontWeight="Bold"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </Border>
 
             <!-- Recent Activity -->
@@ -236,93 +456,12 @@
 
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Height="280">
                         <StackPanel>
-                            <!-- Activity Item 1 -->
-                            <Border BorderBrush="#E0E0E0" 
-                                    BorderThickness="0,0,0,1" 
-                                    Padding="0,10">
-                                <StackPanel>
-                                    <TextBlock Text="Juan Dela Cruz" 
-                                               FontWeight="SemiBold" 
-                                               FontSize="14"/>
-                                    <TextBlock Text="Student • 10:23 AM" 
-                                               Foreground="#666666" 
-                                               FontSize="12" 
-                                               Margin="0,3,0,0"/>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Activity Item 2 -->
-                            <Border BorderBrush="#E0E0E0" 
-                                    BorderThickness="0,0,0,1" 
-                                    Padding="0,10">
-                                <StackPanel>
-                                    <TextBlock Text="Maria Santos" 
-                                               FontWeight="SemiBold" 
-                                               FontSize="14"/>
-                                    <TextBlock Text="Faculty • 10:18 AM" 
-                                               Foreground="#666666" 
-                                               FontSize="12" 
-                                               Margin="0,3,0,0"/>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Activity Item 3 -->
-                            <Border BorderBrush="#E0E0E0" 
-                                    BorderThickness="0,0,0,1" 
-                                    Padding="0,10">
-                                <StackPanel>
-                                    <TextBlock Text="Pedro Garcia" 
-                                               FontWeight="SemiBold" 
-                                               FontSize="14"/>
-                                    <TextBlock Text="Visitor • 10:15 AM" 
-                                               Foreground="#666666" 
-                                               FontSize="12" 
-                                               Margin="0,3,0,0"/>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Activity Item 4 -->
-                            <Border BorderBrush="#E0E0E0" 
-                                    BorderThickness="0,0,0,1" 
-                                    Padding="0,10">
-                                <StackPanel>
-                                    <TextBlock Text="Ana Reyes" 
-                                               FontWeight="SemiBold" 
-                                               FontSize="14"/>
-                                    <TextBlock Text="Student • 10:12 AM" 
-                                               Foreground="#666666" 
-                                               FontSize="12" 
-                                               Margin="0,3,0,0"/>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Activity Item 5 -->
-                            <Border BorderBrush="#E0E0E0" 
-                                    BorderThickness="0,0,0,1" 
-                                    Padding="0,10">
-                                <StackPanel>
-                                    <TextBlock Text="Carlos Lopez" 
-                                               FontWeight="SemiBold" 
-                                               FontSize="14"/>
-                                    <TextBlock Text="Faculty • 10:08 AM" 
-                                               Foreground="#666666" 
-                                               FontSize="12" 
-                                               Margin="0,3,0,0"/>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Activity Item 6 -->
-                            <Border Padding="0,10">
-                                <StackPanel>
-                                    <TextBlock Text="Sofia Torres" 
-                                               FontWeight="SemiBold" 
-                                               FontSize="14"/>
-                                    <TextBlock Text="Student • 10:05 AM" 
-                                               Foreground="#666666" 
-                                               FontSize="12" 
-                                               Margin="0,3,0,0"/>
-                                </StackPanel>
-                            </Border>
+                            <!-- Activity items will be loaded dynamically -->
+                            <TextBlock Text="Loading recent activity..."
+                                       Foreground="#999999"
+                                       FontStyle="Italic"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,20,0,0"/>
                         </StackPanel>
                     </ScrollViewer>
                 </StackPanel>

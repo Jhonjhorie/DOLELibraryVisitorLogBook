@@ -5,32 +5,538 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DoleVisitorLogbook.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="10">
+             d:DesignHeight="800" d:DesignWidth="1200"
+             Background="#E8EAF6">
+
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <TextBlock Text="Visitor Reports" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+        <!-- Report Header -->
+        <Border Grid.Row="0" 
+                Background="White" 
+                CornerRadius="10" 
+                Padding="20"
+                Margin="0,0,0,15"
+                BorderBrush="#5C6BC0"
+                BorderThickness="0,4,0,0">
+            <Border.Effect>
+                <DropShadowEffect Color="#3F51B5" BlurRadius="15" 
+                                  ShadowDepth="3" Opacity="0.3"/>
+            </Border.Effect>
 
-        <!-- DataGrid for reports -->
-        <DataGrid x:Name="ReportsDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Timestamp" Binding="{Binding timestamp}" Width="150"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding email}" Width="*"/>
-                <DataGridTextColumn Header="Time In" Binding="{Binding time_in}" Width="150"/>
-                <DataGridTextColumn Header="Time Out" Binding="{Binding time_out}" Width="150"/>
-                <DataGridTextColumn Header="Purpose" Binding="{Binding purpose}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <Border Background="#5C6BC0"
+                            CornerRadius="8"
+                            Width="40"
+                            Height="40"
+                            Margin="0,0,12,0">
+                        <TextBlock Text="📊"
+                                   FontSize="22"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Border>
 
-        <!-- Export Button -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="Export to Excel" Click="ExportToExcel_Click" Width="120" Height="30"/>
-        </StackPanel>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Reports &amp; Analytics"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#3F51B5"/>
+                        <TextBlock Text="Generate comprehensive visitor reports and statistics"
+                                   FontSize="12"
+                                   Foreground="#757575"
+                                   Margin="0,2,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center">
+                    <Button Content="📄 Export Excel"
+                            Width="130"
+                            Height="36"
+                            Background="#4CAF50"
+                            Foreground="White"
+                            FontSize="12"
+                            FontWeight="Bold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Margin="0,0,10,0"
+                            Click="BtnExportReport_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="6">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#388E3C"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button Content="🖨️ Print"
+                            Width="100"
+                            Height="36"
+                            Background="#FF9800"
+                            Foreground="White"
+                            FontSize="12"
+                            FontWeight="Bold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="BtnPrintReport_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="6">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#F57C00"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Report Configuration Panel -->
+        <Border Grid.Row="1"
+                Background="White"
+                CornerRadius="8"
+                Padding="20"
+                Margin="0,0,0,15"
+                BorderBrush="#7E57C2"
+                BorderThickness="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Report Type -->
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text="📋 Report Type"
+                               FontWeight="SemiBold"
+                               FontSize="11"
+                               Foreground="#5C6BC0"
+                               Margin="0,0,0,5"/>
+                    <ComboBox x:Name="cmbReportType"
+                              Height="36"
+                              FontSize="12"
+                              BorderBrush="#9FA8DA"
+                              BorderThickness="2"
+                              SelectionChanged="CmbReportType_SelectionChanged">
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox">
+                                <Style.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="BorderBrush" Value="#5C6BC0"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Date From -->
+                <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                    <TextBlock Text="📅 Date From"
+                               FontWeight="SemiBold"
+                               FontSize="11"
+                               Foreground="#5C6BC0"
+                               Margin="0,0,0,5"/>
+                    <DatePicker x:Name="dpReportDateFrom"
+                                Height="36"
+                                FontSize="12"
+                                BorderBrush="#9FA8DA"
+                                BorderThickness="2">
+                        <DatePicker.Style>
+                            <Style TargetType="DatePicker">
+                                <Style.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="BorderBrush" Value="#5C6BC0"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DatePicker.Style>
+                    </DatePicker>
+                </StackPanel>
+
+                <!-- Date To -->
+                <StackPanel Grid.Column="2" Margin="0,0,10,0">
+                    <TextBlock Text="📅 Date To"
+                               FontWeight="SemiBold"
+                               FontSize="11"
+                               Foreground="#5C6BC0"
+                               Margin="0,0,0,5"/>
+                    <DatePicker x:Name="dpReportDateTo"
+                                Height="36"
+                                FontSize="12"
+                                BorderBrush="#9FA8DA"
+                                BorderThickness="2">
+                        <DatePicker.Style>
+                            <Style TargetType="DatePicker">
+                                <Style.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="BorderBrush" Value="#5C6BC0"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DatePicker.Style>
+                    </DatePicker>
+                </StackPanel>
+
+                <!-- Action Buttons -->
+                <StackPanel Grid.Column="3" 
+                            Orientation="Horizontal"
+                            Margin="0,18,0,0">
+                    <Button Content="▶ Generate"
+                            Width="110"
+                            Height="36"
+                            Background="#5C6BC0"
+                            Foreground="White"
+                            FontSize="11"
+                            FontWeight="Bold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Margin="0,0,8,0"
+                            Click="BtnGenerateReport_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="6">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#3F51B5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button Content="✖ Clear"
+                            Width="90"
+                            Height="36"
+                            Background="#F44336"
+                            Foreground="White"
+                            FontSize="11"
+                            FontWeight="Bold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="BtnClearReport_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="6">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D32F2F"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Summary Statistics Panel -->
+        <Border Grid.Row="2"
+                Background="White"
+                CornerRadius="8"
+                Padding="20"
+                Margin="0,0,0,15"
+                BorderBrush="#9FA8DA"
+                BorderThickness="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Total Visitors -->
+                <Border Grid.Column="0"
+                        Background="#E3F2FD"
+                        CornerRadius="8"
+                        Padding="15"
+                        Margin="0,0,8,0"
+                        BorderBrush="#2196F3"
+                        BorderThickness="2">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="👥"
+                                   FontSize="28"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="Total Visitors"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1976D2"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock x:Name="txtTotalVisitors"
+                                   Text="0"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#1565C0"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Male Count -->
+                <Border Grid.Column="1"
+                        Background="#E8F5E9"
+                        CornerRadius="8"
+                        Padding="15"
+                        Margin="0,0,8,0"
+                        BorderBrush="#4CAF50"
+                        BorderThickness="2">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="👨"
+                                   FontSize="28"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="Male"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="#388E3C"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock x:Name="txtMaleCount"
+                                   Text="0"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#2E7D32"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Female Count -->
+                <Border Grid.Column="2"
+                        Background="#FCE4EC"
+                        CornerRadius="8"
+                        Padding="15"
+                        Margin="0,0,8,0"
+                        BorderBrush="#E91E63"
+                        BorderThickness="2">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="👩"
+                                   FontSize="28"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="Female"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="#C2185B"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock x:Name="txtFemaleCount"
+                                   Text="0"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#AD1457"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Completed Visits -->
+                <Border Grid.Column="3"
+                        Background="#F3E5F5"
+                        CornerRadius="8"
+                        Padding="15"
+                        Margin="0,0,8,0"
+                        BorderBrush="#9C27B0"
+                        BorderThickness="2">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="✅"
+                                   FontSize="28"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="Completed"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="#7B1FA2"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock x:Name="txtCompletedVisits"
+                                   Text="0"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#6A1B9A"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Active Visits -->
+                <Border Grid.Column="4"
+                        Background="#FFF3E0"
+                        CornerRadius="8"
+                        Padding="15"
+                        BorderBrush="#FF9800"
+                        BorderThickness="2">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="⏳"
+                                   FontSize="28"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="Active"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="#F57C00"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock x:Name="txtActiveVisits"
+                                   Text="0"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#E65100"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Report Data Grid -->
+        <Border Grid.Row="3"
+                Background="White"
+                CornerRadius="10"
+                Padding="20"
+                BorderBrush="#5C6BC0"
+                BorderThickness="0,3,0,0">
+            <Border.Effect>
+                <DropShadowEffect Color="#3F51B5" BlurRadius="15"
+                                  ShadowDepth="3" Opacity="0.25"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Data Grid Header -->
+                <TextBlock Grid.Row="0"
+                           Text="📈 Report Data"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="#3F51B5"
+                           Margin="0,0,0,15"/>
+
+                <!-- DataGrid -->
+                <Border Grid.Row="1"
+                        BorderThickness="2"
+                        BorderBrush="#9FA8DA"
+                        CornerRadius="8">
+                    <DataGrid x:Name="dgReportData"
+                              AutoGenerateColumns="True"
+                              IsReadOnly="True"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="Horizontal"
+                              Background="White"
+                              BorderThickness="0"
+                              RowHeight="45"
+                              CanUserResizeRows="False"
+                              SelectionMode="Single"
+                              AlternatingRowBackground="#F3E5F5"
+                              FontSize="12">
+
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="#5C6BC0"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="FontSize" Value="12"/>
+                                <Setter Property="Padding" Value="12,10"/>
+                                <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                                <Setter Property="BorderBrush" Value="#7E57C2"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#E8EAF6"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#9FA8DA"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="DataGridCell">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter VerticalAlignment="Center"
+                                                                  HorizontalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

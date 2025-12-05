@@ -2,13 +2,19 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="Views\AddVisitorView.xaml.cs">
+    <Compile Update="Views\AddEditVisitorWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\CombinedVisitorView .xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\DashboardView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\LoginWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ManageLogbook.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\QRCodeGeneratorControl.xaml.cs">
@@ -18,9 +24,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\SettingsView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\VisitorLogbookView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

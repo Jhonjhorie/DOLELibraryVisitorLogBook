@@ -106,23 +106,27 @@ namespace DoleVisitorLogbook.Views
                 da.Fill(dt);
 
                 // Add formatted columns for display
+                dt.Columns.Add("date_formatted", typeof(string));
                 dt.Columns.Add("time_in_formatted", typeof(string));
                 dt.Columns.Add("time_out_formatted", typeof(string));
 
                 foreach (DataRow row in dt.Rows)
                 {
-                    // Format Time In
+                    // Format Date
                     if (row["time_in"] != DBNull.Value)
                     {
                         DateTime timeIn = Convert.ToDateTime(row["time_in"]);
-                        row["time_in_formatted"] = timeIn.ToString("MM/dd/yyyy hh:mm tt");
+                        row["date_formatted"] = timeIn.ToString("MM/dd/yyyy");
+
+                        // Format Time In (time only)
+                        row["time_in_formatted"] = timeIn.ToString("hh:mm tt");
                     }
 
-                    // Format Time Out
+                    // Format Time Out (time only)
                     if (row["time_out"] != DBNull.Value)
                     {
                         DateTime timeOut = Convert.ToDateTime(row["time_out"]);
-                        row["time_out_formatted"] = timeOut.ToString("MM/dd/yyyy hh:mm tt");
+                        row["time_out_formatted"] = timeOut.ToString("hh:mm tt");
                     }
                     else
                     {
@@ -168,51 +172,69 @@ namespace DoleVisitorLogbook.Views
 
             if (!string.IsNullOrEmpty(manualTimeValue))
             {
-                // Try to parse time-only input (HH:MM or HH:MM:SS)
-                if (TimeSpan.TryParse(manualTimeValue, out TimeSpan timeSpan))
+                bool parseSuccess = false;
+
+                // Try parsing 12-hour format with AM/PM (e.g., "12:30 PM" or "12:30PM")
+                string[] formats12Hour = new string[]
                 {
-                    // Combine today's date with the entered time
-                    manualCheckoutTime = DateTime.Today.Add(timeSpan);
+            "h:mm tt", "hh:mm tt",           // 12:30 PM
+            "h:mmtt", "hh:mmtt",             // 12:30PM (no space)
+            "h:mm:ss tt", "hh:mm:ss tt",     // 12:30:45 PM
+            "h:mm:sstt", "hh:mm:sstt"        // 12:30:45PM (no space)
+                };
 
-                    // If the time is earlier than check-in time on the same day,
-                    // assume it's for the next day
-                    if (manualCheckoutTime.Value < timeIn && timeIn.Date == DateTime.Today)
-                    {
-                        manualCheckoutTime = manualCheckoutTime.Value.AddDays(1);
-                    }
-
-                    // Validation: Check if checkout time is in the future
-                    if (manualCheckoutTime.Value > DateTime.Now)
-                    {
-                        MessageBox.Show("Time Out cannot be in the future.\n\n" +
-                                      $"Current Time: {DateTime.Now.ToString("hh:mm:ss tt")}\n" +
-                                      $"Entered Time: {manualCheckoutTime.Value.ToString("hh:mm:ss tt")}",
-                            "Invalid Time Out",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Warning);
-                        return;
-                    }
-
-                    // Validation: Check if checkout time is before check-in time
-                    if (manualCheckoutTime.Value < timeIn)
-                    {
-                        MessageBox.Show("Time Out cannot be earlier than Time In.\n\n" +
-                                      $"Time In: {timeIn.ToString("MM/dd/yyyy hh:mm:ss tt")}\n" +
-                                      $"Time Out: {manualCheckoutTime.Value.ToString("MM/dd/yyyy hh:mm:ss tt")}",
-                            "Invalid Time Out",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Warning);
-                        return;
-                    }
+                if (DateTime.TryParseExact(manualTimeValue, formats12Hour,
+                    CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsed12Hour))
+                {
+                    manualCheckoutTime = DateTime.Today.Add(parsed12Hour.TimeOfDay);
+                    parseSuccess = true;
                 }
-                else
+                // Try parsing 24-hour format (e.g., "14:30" or "14:30:00")
+                else if (TimeSpan.TryParse(manualTimeValue, out TimeSpan timeSpan))
+                {
+                    manualCheckoutTime = DateTime.Today.Add(timeSpan);
+                    parseSuccess = true;
+                }
+
+                if (!parseSuccess)
                 {
                     MessageBox.Show("Invalid time format.\n\n" +
                                   "Accepted formats:\n" +
-                                  "• HH:MM (e.g., 14:30 or 02:30)\n" +
-                                  "• HH:MM:SS (e.g., 14:30:00 or 02:30:00)\n" +
-                                  "• Use 24-hour format (00:00 - 23:59)",
+                                  "• 12-hour: 12:30 PM, 12:30:45 PM\n" +
+                                  "• 24-hour: 14:30, 14:30:00\n\n" +
+                                  "Note: Use AM/PM for 12-hour format",
                         "Invalid Input",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    return;
+                }
+
+                // If the time is earlier than check-in time on the same day,
+                // assume it's for the next day
+                if (manualCheckoutTime.Value < timeIn && timeIn.Date == DateTime.Today)
+                {
+                    manualCheckoutTime = manualCheckoutTime.Value.AddDays(1);
+                }
+
+                /* Validation: Check if checkout time is in the future
+                if (manualCheckoutTime.Value > DateTime.Now)
+                {
+                    MessageBox.Show("Time Out cannot be in the future.\n\n" +
+                                  $"Current Time: {DateTime.Now.ToString("hh:mm:ss tt")}\n" +
+                                  $"Entered Time: {manualCheckoutTime.Value.ToString("hh:mm:ss tt")}",
+                        "Invalid Time Out",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    return;
+                }*/
+
+                // Validation: Check if checkout time is before check-in time
+                if (manualCheckoutTime.Value < timeIn)
+                {
+                    MessageBox.Show("Time Out cannot be earlier than Time In.\n\n" +
+                                  $"Time In: {timeIn.ToString("MM/dd/yyyy hh:mm:ss tt")}\n" +
+                                  $"Time Out: {manualCheckoutTime.Value.ToString("MM/dd/yyyy hh:mm:ss tt")}",
+                        "Invalid Time Out",
                         MessageBoxButton.OK,
                         MessageBoxImage.Warning);
                     return;
@@ -258,7 +280,6 @@ namespace DoleVisitorLogbook.Views
 
             LoadVisitors();
         }
-
 
         #endregion
 
