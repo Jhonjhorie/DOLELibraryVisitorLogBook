@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DoleVisitorLogbook")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+239f6a57be87e5fc4f115e73a8eb32608e91b90a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+406f48dbb7b2bfb61a6aa8772a33065f9bbdd0af")]
 [assembly: System.Reflection.AssemblyProductAttribute("DoleVisitorLogbook")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DoleVisitorLogbook")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

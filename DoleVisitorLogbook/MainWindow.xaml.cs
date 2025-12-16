@@ -17,9 +17,41 @@ namespace DoleVisitorLogbook
             InitializeClock();
             LoadDashboard();
 
-            // Set initial user info (you can customize this based on your login system)
-            txtCurrentUser.Text = "Administrator";
+            // Set current user info from session
+            if (UserSession.IsLoggedIn)
+            {
+                txtCurrentUser.Text = $"{UserSession.FullName} ({UserSession.Role})";
+            }
+            else
+            {
+                // If not logged in, redirect to login
+                var loginWindow = new LoginWindow();
+                loginWindow.Show();
+                this.Close();
+                return;
+            }
+
+            // Apply role-based restrictions
+            ApplyRoleBasedAccess();
         }
+
+        #region Role-Based Access
+
+        private void ApplyRoleBasedAccess()
+        {
+            // Only admins can access Settings
+            if (!UserSession.IsAdmin)
+            {
+                btnSettings.IsEnabled = false;
+                btnSettings.Opacity = 0.5;
+                btnSettings.ToolTip = "Admin access required";
+            }
+
+            // You can add more role-based restrictions here
+            // Example: Only admins can delete records, etc.
+        }
+
+        #endregion
 
         #region Clock Timer
 
@@ -129,6 +161,16 @@ namespace DoleVisitorLogbook
         {
             try
             {
+                // Check if user has permission
+                if (!UserSession.IsAdmin)
+                {
+                    MessageBox.Show("You don't have permission to access Settings.\n\nOnly administrators can access this section.",
+                        "Access Denied",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    return;
+                }
+
                 MainContent.Children.Clear();
                 MainContent.Children.Add(new Settings());
 
@@ -236,12 +278,15 @@ namespace DoleVisitorLogbook
                     visitorWindow.Close();
                 }
 
-                // You can add login window here instead of shutdown
-                // var loginWindow = new LoginWindow();
-                // loginWindow.Show();
-                // this.Close();
+                // Clear user session
+                UserSession.Clear();
 
-                Application.Current.Shutdown();
+                // Show login window
+                var loginWindow = new LoginWindow();
+                loginWindow.Show();
+
+                // Close main window
+                this.Close();
             }
         }
 
@@ -260,6 +305,9 @@ namespace DoleVisitorLogbook
             {
                 visitorWindow.Close();
             }
+
+            // If main window is closed without logout, clear session
+            UserSession.Clear();
         }
 
         #endregion
@@ -303,8 +351,7 @@ namespace DoleVisitorLogbook
         /// </summary>
         public void SetCurrentUser(string username, string role = "Administrator")
         {
-            txtCurrentUser.Text = username;
-            // You can add role-based logic here
+            txtCurrentUser.Text = $"{username} ({role})";
         }
 
         /// <summary>

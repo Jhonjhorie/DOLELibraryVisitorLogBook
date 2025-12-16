@@ -89,7 +89,7 @@
                                 Height="80"
                                 HorizontalAlignment="Center"
                                 Margin="0,0,0,10">
-                            <Image Source="/Resources/dole_logo.png" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3"/>
+                            <Image Source="pack://application:,,,/Resources/dole_logo.png" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3"/>
 
                         </Border>
                         <TextBlock Text="DOLE Library" 
