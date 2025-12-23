@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|c:\\users\\dole\\source\\repos\\dolevisitorlogbook\\dolelibraryvisitorlogbook\\dolevisitorlogbook\\views\\settingsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|solutionrelative:dolevisitorlogbook\\views\\settingsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|c:\\users\\dole\\source\\repos\\dolevisitorlogbook\\dolelibraryvisitorlogbook\\dolevisitorlogbook\\views\\reportsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|solutionrelative:dolevisitorlogbook\\views\\reportsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|c:\\users\\dole\\source\\repos\\dolevisitorlogbook\\dolelibraryvisitorlogbook\\dolevisitorlogbook\\views\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|solutionrelative:dolevisitorlogbook\\views\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,25 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SettingsView.xaml",
-              "DocumentMoniker": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\DoleVisitorLogbook\\Views\\SettingsView.xaml",
-              "RelativeDocumentMoniker": "DoleVisitorLogbook\\Views\\SettingsView.xaml",
-              "ToolTip": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\DoleVisitorLogbook\\Views\\SettingsView.xaml",
-              "RelativeToolTip": "DoleVisitorLogbook\\Views\\SettingsView.xaml",
+              "Title": "LoginWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\DoleVisitorLogbook\\Views\\LoginWindow.xaml",
+              "RelativeDocumentMoniker": "DoleVisitorLogbook\\Views\\LoginWindow.xaml",
+              "ToolTip": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\DoleVisitorLogbook\\Views\\LoginWindow.xaml",
+              "RelativeToolTip": "DoleVisitorLogbook\\Views\\LoginWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-11T09:12:32.98Z",
+              "WhenOpened": "2025-12-23T08:45:03.236Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ReportsView.xaml",
-              "DocumentMoniker": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\DoleVisitorLogbook\\Views\\ReportsView.xaml",
-              "RelativeDocumentMoniker": "DoleVisitorLogbook\\Views\\ReportsView.xaml",
-              "ToolTip": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\DoleVisitorLogbook\\Views\\ReportsView.xaml",
-              "RelativeToolTip": "DoleVisitorLogbook\\Views\\ReportsView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-11T06:13:08.901Z"
             }
           ]
         }

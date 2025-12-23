@@ -1,0 +1,20 @@
+﻿DoleVisitorLogbook
+1.0.0.0
+
+winexe
+C#
+.cs
+C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\obj\Release\net8.0-windows\
+DoleVisitorLogbook
+none
+false
+TRACE;RELEASE;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
+C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisitorLogbook\App.xaml
+10234649155
+11612452650
+18-106028869
+215-15782496
+MainWindow.xaml;Styles\theme.xaml;Views\AddEditVisitorWindow.xaml;Views\CombinedVisitorView .xaml;Views\DashboardView.xaml;Views\LoginWindow.xaml;Views\ManageLogbook.xaml;Views\QRCodeGeneratorControl.xaml;Views\ReportsView.xaml;Views\SettingsView.xaml;
+
+False
+

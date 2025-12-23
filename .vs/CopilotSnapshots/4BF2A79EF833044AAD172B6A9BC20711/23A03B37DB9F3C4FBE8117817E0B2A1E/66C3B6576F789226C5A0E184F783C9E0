@@ -1,0 +1,26 @@
+﻿-- db/init.sql
+-- Creates database, app user and example table for DoleVisitorLogbook (MySQL).
+-- IMPORTANT: Replace 'ChangeThisStrongPassword!' before running in any real environment.
+
+-- Create database
+CREATE DATABASE IF NOT EXISTS dole_logbook
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+
+-- Create application user (change host and password as required)
+CREATE USER IF NOT EXISTS 'dole_app'@'localhost' IDENTIFIED BY 'ChangeThisStrongPassword!';
+
+-- Grant least-privilege permissions needed by the app (adjust as required)
+GRANT SELECT, INSERT, UPDATE, DELETE ON dole_logbook.* TO 'dole_app'@'localhost';
+FLUSH PRIVILEGES;
+
+-- Example table (adjust columns/schema to your real model)
+USE dole_logbook;
+
+CREATE TABLE IF NOT EXISTS visitors (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    visitor_datetime DATETIME NOT NULL,
+    purpose VARCHAR(500),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

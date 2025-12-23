@@ -570,41 +570,39 @@
 
                                             <!-- Checkout Button -->
                                             <Button Content="✓ Check Out"
-                        Background="#43A047"
-                        Foreground="White"
-                        Padding="14,8"
-                        FontSize="12"
-                        FontWeight="Bold"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        IsEnabled="{Binding time_out, Converter={StaticResource NullToBooleanConverter}}"
-                        Click="CheckOut_Click">
-                                                <Button.Style>
-                                                    <Style TargetType="Button">
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="Button">
-                                                                    <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="5">
-                                                                        <ContentPresenter HorizontalAlignment="Center"
-                                                              VerticalAlignment="Center"/>
-                                                                    </Border>
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                        <Style.Triggers>
+                                                Background="#43A047"
+                                                Foreground="White"
+                                                FontSize="12"
+                                                FontWeight="Bold"
+                                                BorderThickness="0"
+                                                Cursor="Hand"
+                                                IsEnabled="{Binding time_out, Converter={StaticResource NullToBooleanConverter}}"
+                                                Click="CheckOut_Click">
+
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border x:Name="border"
+                                                            Background="{TemplateBinding Background}"
+                                                            CornerRadius="10">
+                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+
+                                                        <ControlTemplate.Triggers>
                                                             <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter Property="Background" Value="#388E3C"/>
+                                                                <Setter TargetName="border" Property="Background" Value="#388E3C"/>
                                                             </Trigger>
+
                                                             <Trigger Property="IsEnabled" Value="False">
-                                                                <Setter Property="Background" Value="#BDBDBD"/>
+                                                                <Setter TargetName="border" Property="Background" Value="#BDBDBD"/>
                                                                 <Setter Property="Foreground" Value="#757575"/>
-                                                                <Setter Property="Cursor" Value="No"/>
+                                                                <Setter Property="Cursor" Value="Arrow"/>
                                                             </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Button.Style>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Button.Template>
                                             </Button>
+
+
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>

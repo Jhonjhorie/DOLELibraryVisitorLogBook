@@ -1,9 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 
 namespace DoleVisitorLogbook.Database
 {
@@ -11,7 +7,10 @@ namespace DoleVisitorLogbook.Database
     {
         public static MySqlConnection GetConnection()
         {
-            string connStr = "Server=localhost;Port=3307;Database=dole_logbook;Uid=root;Pwd=Information@1;";
+            string connStr = ConfigurationManager
+                .ConnectionStrings["DoleDB"]
+                .ConnectionString;
+
             return new MySqlConnection(connStr);
         }
     }

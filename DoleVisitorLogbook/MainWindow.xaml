@@ -11,7 +11,8 @@
         Title="DOLE Library Visitor Logbook" 
         Height="700" 
         Width="1200"
-        Background="#F1F3F4">
+        Background="#F1F3F4"
+        Icon="/Resources/dole_logo.ico">
 
     <Window.Resources>
         <!-- Sidebar Button Style -->
