@@ -75,7 +75,7 @@
                         BorderThickness="0"
                         Cursor="Hand"
                         HorizontalAlignment="Right"
-                        Margin="0,0,120,0"
+                        Margin="0,0,150,0"
                         Click="BtnRefresh_Click">
                     <Button.Style>
                         <Style TargetType="Button">

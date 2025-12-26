@@ -12,7 +12,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -286,138 +285,8 @@
             </Grid>
         </Border>
 
-        <!-- Summary Statistics Panel -->
-        <Border Grid.Row="2"
-                Background="White"
-                CornerRadius="8"
-                Padding="20"
-                Margin="0,0,0,15"
-                BorderBrush="#9FA8DA"
-                BorderThickness="2">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- Total Visitors -->
-                <Border Grid.Column="0"
-            Background="#E3F2FD"
-            CornerRadius="8"
-            Padding="10"
-            Margin="0,0,8,0"
-            BorderBrush="#2196F3"
-            BorderThickness="2">
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0" Text="👥" FontSize="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Grid.Column="1" Text="Total Visitors" FontSize="12" FontWeight="SemiBold" Foreground="#1976D2" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" x:Name="txtTotalVisitors" Text="0" FontSize="20" FontWeight="Bold" Foreground="#1565C0" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                    </Grid>
-                </Border>
-
-                <!-- Male Count -->
-                <Border Grid.Column="1"
-            Background="#E8F5E9"
-            CornerRadius="8"
-            Padding="10"
-            Margin="0,0,8,0"
-            BorderBrush="#4CAF50"
-            BorderThickness="2">
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0" Text="👨" FontSize="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Grid.Column="1" Text="Male" FontSize="12" FontWeight="SemiBold" Foreground="#388E3C" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" x:Name="txtMaleCount" Text="0" FontSize="20" FontWeight="Bold" Foreground="#2E7D32" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                    </Grid>
-                </Border>
-
-                <!-- Female Count -->
-                <Border Grid.Column="2"
-            Background="#FCE4EC"
-            CornerRadius="8"
-            Padding="10"
-            Margin="0,0,8,0"
-            BorderBrush="#E91E63"
-            BorderThickness="2">
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0" Text="👩" FontSize="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Grid.Column="1" Text="Female" FontSize="12" FontWeight="SemiBold" Foreground="#C2185B" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" x:Name="txtFemaleCount" Text="0" FontSize="20" FontWeight="Bold" Foreground="#AD1457" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                    </Grid>
-                </Border>
-
-                <!-- Completed Visits -->
-                <Border Grid.Column="3"
-            Background="#F3E5F5"
-            CornerRadius="8"
-            Padding="10"
-            Margin="0,0,8,0"
-            BorderBrush="#9C27B0"
-            BorderThickness="2">
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0" Text="✅" FontSize="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Grid.Column="1" Text="Completed" FontSize="12" FontWeight="SemiBold" Foreground="#7B1FA2" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" x:Name="txtCompletedVisits" Text="0" FontSize="20" FontWeight="Bold" Foreground="#6A1B9A" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                    </Grid>
-                </Border>
-
-                <!-- Active Visits -->
-                <Border Grid.Column="4"
-            Background="#FFF3E0"
-            CornerRadius="8"
-            Padding="10"
-            BorderBrush="#FF9800"
-            BorderThickness="2">
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0" Text="⏳" FontSize="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Grid.Column="1" Text="Active" FontSize="12" FontWeight="SemiBold" Foreground="#F57C00" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" x:Name="txtActiveVisits" Text="0" FontSize="20" FontWeight="Bold" Foreground="#E65100" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                    </Grid>
-                </Border>
-
-            </Grid>
-
-        </Border>
-
         <!-- Report Data Grid -->
-        <Border Grid.Row="3"
+        <Border Grid.Row="2"
                 Background="White"
                 CornerRadius="10"
                 Padding="20"

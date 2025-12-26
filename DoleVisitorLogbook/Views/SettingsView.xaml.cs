@@ -605,7 +605,7 @@ namespace DoleVisitorLogbook.Views
         private void InitializeComponent()
         {
             Width = 450;
-            Height = 500;
+            Height = 530;
             Title = "Add New User";
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             ResizeMode = ResizeMode.NoResize;

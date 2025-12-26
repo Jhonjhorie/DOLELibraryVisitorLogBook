@@ -204,9 +204,6 @@ namespace DoleVisitorLogbook.Views
 
                         dgReportData.ItemsSource = reportData.DefaultView;
 
-                        // Update summary
-                        UpdateSummary(dateFrom, dateTo);
-
                         if (reportData.Rows.Count == 0)
                         {
                             MessageBox.Show("No data found for the selected criteria.",
@@ -221,50 +218,6 @@ namespace DoleVisitorLogbook.Views
             {
                 MessageBox.Show($"Error generating report: {ex.Message}",
                     "Report Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-        }
-
-        private void UpdateSummary(DateTime dateFrom, DateTime dateTo)
-        {
-            try
-            {
-                using (var conn = DB.GetConnection())
-                {
-                    conn.Open();
-                    string sql = @"SELECT 
-                                  COUNT(*) AS TotalVisitors,
-                                  COUNT(CASE WHEN gender='Male' THEN 1 END) AS MaleCount,
-                                  COUNT(CASE WHEN gender='Female' THEN 1 END) AS FemaleCount,
-                                  COUNT(CASE WHEN time_out IS NOT NULL THEN 1 END) AS CompletedVisits,
-                                  COUNT(CASE WHEN time_out IS NULL THEN 1 END) AS ActiveVisits
-                                  FROM visitors 
-                                  WHERE time_in >= @DateFrom AND time_in <= @DateTo";
-
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@DateFrom", dateFrom);
-                        cmd.Parameters.AddWithValue("@DateTo", dateTo);
-
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                txtTotalVisitors.Text = reader["TotalVisitors"]?.ToString() ?? "0";
-                                txtMaleCount.Text = reader["MaleCount"]?.ToString() ?? "0";
-                                txtFemaleCount.Text = reader["FemaleCount"]?.ToString() ?? "0";
-                                txtCompletedVisits.Text = reader["CompletedVisits"]?.ToString() ?? "0";
-                                txtActiveVisits.Text = reader["ActiveVisits"]?.ToString() ?? "0";
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error updating summary: {ex.Message}",
-                    "Summary Error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
@@ -311,25 +264,8 @@ namespace DoleVisitorLogbook.Views
                         worksheet.Cell(3, 1).Value = $"Date Range: {dpReportDateFrom.SelectedDate?.ToString("MM/dd/yyyy") ?? "N/A"} to {dpReportDateTo.SelectedDate?.ToString("MM/dd/yyyy") ?? "N/A"}";
                         worksheet.Cell(4, 1).Value = $"Generated: {DateTime.Now:MM/dd/yyyy hh:mm tt}";
 
-                        // Add summary
-                        int summaryRow = 6;
-                        worksheet.Cell(summaryRow, 1).Value = "Summary Statistics";
-                        worksheet.Cell(summaryRow, 1).Style.Font.Bold = true;
-                        worksheet.Cell(summaryRow, 1).Style.Fill.BackgroundColor = XLColor.FromHtml("#E8EAF6");
-
-                        worksheet.Cell(summaryRow + 1, 1).Value = "Total Visitors:";
-                        worksheet.Cell(summaryRow + 1, 2).Value = txtTotalVisitors.Text;
-                        worksheet.Cell(summaryRow + 2, 1).Value = "Male:";
-                        worksheet.Cell(summaryRow + 2, 2).Value = txtMaleCount.Text;
-                        worksheet.Cell(summaryRow + 3, 1).Value = "Female:";
-                        worksheet.Cell(summaryRow + 3, 2).Value = txtFemaleCount.Text;
-                        worksheet.Cell(summaryRow + 4, 1).Value = "Completed Visits:";
-                        worksheet.Cell(summaryRow + 4, 2).Value = txtCompletedVisits.Text;
-                        worksheet.Cell(summaryRow + 5, 1).Value = "Active Visits:";
-                        worksheet.Cell(summaryRow + 5, 2).Value = txtActiveVisits.Text;
-
                         // Add data table
-                        int dataStartRow = summaryRow + 7;
+                        int dataStartRow = 6;
 
                         // Headers
                         for (int col = 0; col < reportData.Columns.Count; col++)
@@ -419,11 +355,6 @@ namespace DoleVisitorLogbook.Views
         {
             reportData = new DataTable();
             dgReportData.ItemsSource = null;
-            txtTotalVisitors.Text = "0";
-            txtMaleCount.Text = "0";
-            txtFemaleCount.Text = "0";
-            txtCompletedVisits.Text = "0";
-            txtActiveVisits.Text = "0";
             cmbReportType.SelectedIndex = 0;
             SetDefaultDates();
         }

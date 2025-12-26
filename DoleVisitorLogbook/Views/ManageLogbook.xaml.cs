@@ -256,12 +256,14 @@ namespace DoleVisitorLogbook.Views
         #endregion
 
         #region Export
-
         private void BtnExportExcel_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (allVisitorsData == null || allVisitorsData.Rows.Count == 0)
+                // Get the filtered view instead of all data
+                var filteredView = allVisitorsData.DefaultView;
+
+                if (filteredView == null || filteredView.Count == 0)
                 {
                     MessageBox.Show("No data to export.",
                         "Export Error",
@@ -297,14 +299,16 @@ namespace DoleVisitorLogbook.Views
                         // Style headers
                         var headerRange = worksheet.Range(1, 1, 1, 9);
                         headerRange.Style.Font.Bold = true;
-                        headerRange.Style.Fill.BackgroundColor = XLColor.FromHtml("#E91E63");
+                        headerRange.Style.Fill.BackgroundColor = XLColor.FromHtml("#5C6BC0");
                         headerRange.Style.Font.FontColor = XLColor.White;
                         headerRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
-                        // Add data
+                        // Add data from filtered view
                         int row = 2;
-                        foreach (DataRow dataRow in allVisitorsData.Rows)
+                        foreach (DataRowView dataRowView in filteredView)
                         {
+                            DataRow dataRow = dataRowView.Row;
+
                             worksheet.Cell(row, 1).Value = dataRow["id"].ToString();
                             worksheet.Cell(row, 2).Value = dataRow["date_formatted"].ToString();
                             worksheet.Cell(row, 3).Value = dataRow["name"].ToString();
@@ -325,14 +329,18 @@ namespace DoleVisitorLogbook.Views
                         {
                             if (i % 2 == 0)
                             {
-                                worksheet.Range(i, 1, i, 9).Style.Fill.BackgroundColor = XLColor.FromHtml("#FCE4EC");
+                                worksheet.Range(i, 1, i, 9).Style.Fill.BackgroundColor = XLColor.FromHtml("#E8EAF6");
                             }
                         }
+
+                        // Add border to all cells
+                        worksheet.Range(1, 1, row - 1, 9).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        worksheet.Range(1, 1, row - 1, 9).Style.Border.InsideBorder = XLBorderStyleValues.Thin;
 
                         workbook.SaveAs(saveFileDialog.FileName);
                     }
 
-                    MessageBox.Show($"Data exported successfully!\n\nFile: {saveFileDialog.FileName}",
+                    MessageBox.Show($"Data exported successfully!\n\nRecords exported: {filteredView.Count}\nFile: {saveFileDialog.FileName}",
                         "Export Successful",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);

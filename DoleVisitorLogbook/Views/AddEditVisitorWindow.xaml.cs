@@ -12,6 +12,7 @@ namespace DoleVisitorLogbook.Views
     {
         private bool isEditMode = false;
         private int visitorId = -1;
+        private DateTime? originalTimeOut = null; // FIXED: Store original time_out value
 
         // Constructor for Add Mode
         public AddEditVisitorWindow()
@@ -80,12 +81,17 @@ namespace DoleVisitorLogbook.Views
                     txtTimeIn.Text = timeIn.ToString("hh:mm tt");
                 }
 
-                // Set Time Out (if exists)
+                // FIXED: Set Time Out (if exists) and store original value
                 if (visitorData["time_out"] != DBNull.Value)
                 {
                     DateTime timeOut = Convert.ToDateTime(visitorData["time_out"]);
+                    originalTimeOut = timeOut; // Store the original time_out
                     dpDateOut.SelectedDate = timeOut.Date;
                     txtTimeOut.Text = timeOut.ToString("hh:mm tt");
+                }
+                else
+                {
+                    originalTimeOut = null; // No time_out exists
                 }
             }
             catch (Exception ex)
@@ -265,8 +271,10 @@ namespace DoleVisitorLogbook.Views
                 DateTime? timeIn = ParseDateTime(dpDateIn, txtTimeIn);
                 DateTime? timeOut = null;
 
+                // FIXED: Determine the time_out value to use
                 if (dpDateOut.SelectedDate.HasValue && !string.IsNullOrWhiteSpace(txtTimeOut.Text))
                 {
+                    // User entered NEW time_out data
                     timeOut = ParseDateTime(dpDateOut, txtTimeOut);
 
                     // Validate Time Out is after Time In
@@ -280,6 +288,13 @@ namespace DoleVisitorLogbook.Views
                         return;
                     }
                 }
+                else if (isEditMode && originalTimeOut.HasValue)
+                {
+                    // FIXED: In edit mode, if user didn't enter new time_out but original exists,
+                    // keep the original value instead of setting to NULL
+                    timeOut = originalTimeOut;
+                }
+                // else: timeOut remains null (no time_out to save)
 
                 using (var conn = DB.GetConnection())
                 {
@@ -319,6 +334,8 @@ namespace DoleVisitorLogbook.Views
                         cmd.Parameters.AddWithValue("@Office", txtOffice.Text.Trim());
                         cmd.Parameters.AddWithValue("@Purpose", txtPurpose.Text.Trim());
                         cmd.Parameters.AddWithValue("@TimeIn", timeIn.Value.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                        // FIXED: Use the determined timeOut value (could be new, original, or null)
                         cmd.Parameters.AddWithValue("@TimeOut", timeOut.HasValue ? (object)timeOut.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value);
 
                         cmd.ExecuteNonQuery();

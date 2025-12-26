@@ -1,36 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|c:\\users\\dole\\source\\repos\\dolevisitorlogbook\\dolelibraryvisitorlogbook\\dolevisitorlogbook\\views\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{6BC8E9C0-730C-4048-B72A-AABC8D78E668}|DoleVisitorLogbook\\DoleVisitorLogbook.csproj|solutionrelative:dolevisitorlogbook\\views\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LoginWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\DoleVisitorLogbook\\Views\\LoginWindow.xaml",
-              "RelativeDocumentMoniker": "DoleVisitorLogbook\\Views\\LoginWindow.xaml",
-              "ToolTip": "C:\\Users\\DOLE\\source\\repos\\DoleVisitorLogbook\\DOLELibraryVisitorLogBook\\DoleVisitorLogbook\\Views\\LoginWindow.xaml",
-              "RelativeToolTip": "DoleVisitorLogbook\\Views\\LoginWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-23T08:45:03.236Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

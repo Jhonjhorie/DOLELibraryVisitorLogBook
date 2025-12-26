@@ -16,5 +16,5 @@ C:\Users\DOLE\source\repos\DoleVisitorLogbook\DOLELibraryVisitorLogBook\DoleVisi
 215-15782496
 MainWindow.xaml;Styles\theme.xaml;Views\AddEditVisitorWindow.xaml;Views\CombinedVisitorView .xaml;Views\DashboardView.xaml;Views\LoginWindow.xaml;Views\ManageLogbook.xaml;Views\QRCodeGeneratorControl.xaml;Views\ReportsView.xaml;Views\SettingsView.xaml;
 
-True
+False
 
